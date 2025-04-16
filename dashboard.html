@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Tableau de Bord Budget Étudiant</title>
+    <link rel="stylesheet" href="../static/css/dashboard.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+    </head>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body data-auth-required="true">
+    <div class="container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="logo">
+                <i class="fas fa-wallet"></i>
+                <span>Budgety</span>
+            </div>
+            <nav>
+                <a href="#" class="nav-link active">
+                    <i class="fas fa-home"></i>
+                    <span>Tableau de Bord</span>
+                </a>
+                
+                
+                <!-- New Navigation Links for Budget Management -->
+                <a href="#" class="nav-link logout-button" style="background-color: crimson; position: relative; top:660px">
+                    <i class="fas fa-sign-out-alt" style="color: aliceblue;"></i>
+                    <span style="color: rgb(255, 255, 255);">Déconnexion</span>
+                </a>
+            </nav>
+            <div class="profile">
+                <div class="profile-info">
+                    <div class="profile-name">Espace réservé pour l'étudiant</div>
+                    <div class="profile-role">Étudiant</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="header">
+                <h1 class="page-title">Tableau de Bord Étudiant Budgety</h1>
+                <div class="action-buttons">
+                    <button class="btn btn-warning add-budget-btn" id="addBudgetBtn">
+                        <i class="fas fa-wallet"></i>
+                        <span>Ajouter Budget</span>
+                    </button>
+                
+                    <button class="btn btn-primary" id="exportReportBtn">
+                        <i class="fas fa-download"></i>
+                        <span>Exporter Rapport</span>
+                    </button>
+                </div>
+            </div>
+            
+         
+                
+ <!-- Budget Overview Section - Goes right after the header div -->
+<div class="budget-overview">
+    <div class="section-header">
+        <h2>Aperçu du Budget</h2>
+       
+    </div>
+    
+    <div class="budget-cards">
+        <div class="budget-card">
+            <div class="budget-card-icon">
+                <i class="fas fa-money-bill-wave"></i>
+            </div>
+            <div class="budget-card-info">
+                <h3>Budget Total</h3>
+                <p class="budget-amount">€<span id="totalBudget">0.00</span></p>
+                <span class="budget-period">Mensuel</span>
+            </div>
+        </div>
+        
+        <div class="budget-card">
+            <div class="budget-card-icon">
+                <i class="fas fa-shopping-cart"></i>
+            </div>
+            <div class="budget-card-info">
+                <h3>Dépenses Totales</h3>
+                <p class="budget-amount">€<span id="totalExpenses">0.00</span></p>
+                <span class="expense-percentage"><span id="expensePercentage">0</span>% du budget</span>
+            </div>
+        </div>
+        
+        <div class="budget-card">
+            <div class="budget-card-icon">
+                <i class="fas fa-wallet"></i>
+            </div>
+            <div class="budget-card-info">
+                <h3>Restant</h3>
+                <p class="budget-amount">€<span id="remainingBudget">0.00</span></p>
+                <span class="remaining-days"><span id="daysLeft">30</span> jours restants</span>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Budget Categories Section -->
+    <div class="budget-categories">
+        <div class="section-header">
+        </div>
+        
+        <div class="categories-grid">
+            <div class="category-item">
+                <div class="category-header">
+                    <span class="category-icon"><i class="fas fa-utensils"></i></span>
+                    <h4>Alimentation</h4>
+                </div>
+                <div class="category-progress">
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 65%"></div>
+                    </div>
+                    <div class="category-amounts">
+                        <span class="spent">€195.00</span>
+                        <span class="allocated">€300.00</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="category-item">
+                <div class="category-header">
+                    <span class="category-icon"><i class="fas fa-home"></i></span>
+                    <h4>Logement</h4>
+                </div>
+                <div class="category-progress">
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 80%"></div>
+                    </div>
+                    <div class="category-amounts">
+                        <span class="spent">€800.00</span>
+                        <span class="allocated">€1000.00</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="category-item">
+                <div class="category-header">
+                    <span class="category-icon"><i class="fas fa-graduation-cap"></i></span>
+                    <h4>Éducation</h4>
+                </div>
+                <div class="category-progress">
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 40%"></div>
+                    </div>
+                    <div class="category-amounts">
+                        <span class="spent">€120.00</span>
+                        <span class="allocated">€300.00</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="category-item">
+                <div class="category-header">
+                    <span class="category-icon"><i class="fas fa-bus"></i></span>
+                    <h4>Transport</h4>
+                </div>
+                <div class="category-progress">
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 30%"></div>
+                    </div>
+                    <div class="category-amounts">
+                        <span class="spent">€45.00</span>
+                        <span class="allocated">€150.00</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="category-item">
+                <div class="category-header">
+                    <span class="category-icon"><i class="fas fa-film"></i></span>
+                    <h4>Divertissement</h4>
+                </div>
+                <div class="category-progress">
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 75%"></div>
+                    </div>
+                    <div class="category-amounts">
+                        <span class="spent">€75.00</span>
+                        <span class="allocated">€100.00</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="category-item">
+                <div class="category-header">
+                    <span class="category-icon"><i class="fas fa-plus"></i></span>
+                    <h4>Ajouter Catégorie</h4>
+                </div>
+                <div class="category-add">
+                    <button class="btn btn-outline btn-block">Ajouter Nouveau</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+
+<!-- Tips and Advice Section -->
+<div class="tips-section">
+    <div class="section-header">
+        <h2>Conseils Budgétaires pour Étudiants</h2>
+        <span class="tips-icon"><i class="fas fa-lightbulb"></i></span>
+    </div>
+    
+    <div class="tips-container">
+        <div class="tip-card">
+            <div class="tip-icon">
+                <i class="fas fa-list-check"></i>
+            </div>
+            <div class="tip-content">
+                <h4>Établir un Budget Réaliste</h4>
+                <p>Commencez par analyser vos revenus et dépenses des derniers mois pour créer un budget mensuel adapté à votre situation réelle.</p>
+            </div>
+        </div>
+        
+        <div class="tip-card">
+            <div class="tip-icon">
+                <i class="fas fa-piggy-bank"></i>
+            </div>
+            <div class="tip-content">
+                <h4>Économiser Méthodiquement</h4>
+                <p>Mettez de côté 10% de vos revenus dès réception pour constituer une réserve d'urgence et atteindre vos objectifs d'épargne.</p>
+            </div>
+        </div>
+        
+        <div class="tip-card">
+            <div class="tip-icon">
+                <i class="fas fa-utensils"></i>
+            </div>
+            <div class="tip-content">
+                <h4>Optimiser les Frais Alimentaires</h4>
+                <p>Préparez vos repas à l'avance, achetez en vrac et profitez des offres étudiantes pour réduire significativement ce poste de dépense.</p>
+            </div>
+        </div>
+        
+        <div class="tip-card">
+            <div class="tip-icon">
+                <i class="fas fa-book"></i>
+            </div>
+            <div class="tip-content">
+                <h4>Économiser sur les Fournitures</h4>
+                <p>Recherchez des manuels d'occasion, utilisez les ressources de la bibliothèque et partagez les fournitures avec d'autres étudiants.</p>
+            </div>
+        </div>
+        
+        <div class="tip-card highlighted-tip">
+            <div class="tip-icon">
+                <i class="fas fa-chart-line"></i>
+            </div>
+            <div class="tip-content">
+                <h4>Astuce du Mois</h4>
+                <p>Suivez la règle 50-30-20 : 50% pour les besoins essentiels, 30% pour les envies personnelles et 20% pour l'épargne et le remboursement des dettes.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--Students disc-->
+  
+<div class="student-resources-section">
+    <div class="section-header">
+        <h2>Réductions et Avantages Étudiants</h2>
+        <span class="resources-icon"><i class="fas fa-tag"></i></span>
+    </div>
+    
+    <div class="resources-container">
+        <div class="resource-card">
+            <div class="resource-icon">
+                <i class="fas fa-store"></i>
+            </div>
+            <div class="resource-content">
+                <h4>UNiDAYS</h4>
+                <p>Plateforme regroupant des offres et réductions exclusives pour les étudiants sur des marques populaires.</p>
+                <a href="https://www.myunidays.com/FR/fr-FR" class="resource-link" target="_blank">
+                    <i class="fas fa-external-link-alt"></i> Accéder au site
+                </a>
+            </div>
+        </div>
+        
+        <div class="resource-card">
+            <div class="resource-icon">
+                <i class="fas fa-shopping-bag"></i>
+            </div>
+            <div class="resource-content">
+                <h4>ISIC France</h4>
+                <p>La carte internationale d'étudiant offrant des réductions dans plus de 130 pays et sur de nombreux sites.</p>
+                <a href="https://isic.fr/" class="resource-link" target="_blank">
+                    <i class="fas fa-external-link-alt"></i> Découvrir les avantages
+                </a>
+            </div>
+        </div>
+        
+        <div class="resource-card">
+            <div class="resource-icon">
+                <i class="fas fa-laptop"></i>
+            </div>
+            <div class="resource-content">
+                <h4>Apple Education Store</h4>
+                <p>Réductions spéciales sur les produits Apple pour les étudiants et le personnel enseignant.</p>
+                <a href="https://www.apple.com/fr-edu/store" class="resource-link" target="_blank">
+                    <i class="fas fa-external-link-alt"></i> Voir les promotions
+                </a>
+            </div>
+        </div>
+        
+        <div class="resource-card">
+            <div class="resource-icon">
+                <i class="fas fa-bus-alt"></i>
+            </div>
+            <div class="resource-content">
+                <h4>Carte Jeune SNCF</h4>
+                <p>Jusqu'à 30% de réduction sur tous les trajets TGV et Intercités pour les 12-27 ans.</p>
+                <a href="https://www.sncf-connect.com/train/cartes-abonnements/jeune" class="resource-link" target="_blank">
+                    <i class="fas fa-external-link-alt"></i> Commander la carte
+                </a>
+            </div>
+        </div>
+        
+        <div class="resource-card">
+            <div class="resource-icon">
+                <i class="fas fa-utensils"></i>
+            </div>
+            <div class="resource-content">
+                <h4>CROUS Restauration</h4>
+                <p>Repas à tarifs sociaux dans les restaurants universitaires pour tous les étudiants.</p>
+                <a href="https://www.etudiant.gouv.fr/fr/les-crous-139" class="resource-link" target="_blank">
+                    <i class="fas fa-external-link-alt"></i> En savoir plus
+                </a>
+            </div>
+        </div>
+        
+        <div class="resource-card highlighted-resource">
+            <div class="resource-icon">
+                <i class="fas fa-graduation-cap"></i>
+            </div>
+            <div class="resource-content">
+                <h4>Pass Culture</h4>
+                <p>300€ de crédit pour des activités et biens culturels pour les jeunes de 18 ans.</p>
+                <a href="https://pass.culture.fr/" class="resource-link" target="_blank">
+                    <i class="fas fa-external-link-alt"></i> Vérifier l'éligibilité
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+<br>
+<br>
+
+<footer class="dashboard-footer">
+    <div class="footer-content">
+        <div class="footer-logo">
+            <i class="fas fa-wallet"></i>
+            <span>Budgety</span>
+        </div>
+        <div class="copyright">
+            &copy; 2025 Budgety. Tous droits réservés.
+        </div>
+    </div>
+</footer>
+
+   <!-- Budget Modal -->
+<div id="budgetModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>Définir Votre Budget Mensuel</h3>
+            <span class="close">&times;</span>
+        </div>
+        <div class="modal-body">
+            <form id="budgetForm">
+                <div class="form-group">
+                    <label for="totalBudgetInput">Budget Mensuel Total (€)</label>
+                    <input type="number" id="totalBudgetInput" placeholder="0.00" step="0.01" min="0" required>
+                </div>
+                <div class="form-group">
+                    <label for="budgetStartDate">Date de Début</label>
+                    <input type="date" id="budgetStartDate" required>
+                </div>
+                <div class="form-group">
+                    <label for="budgetEndDate">Date de Fin</label>
+                    <input type="date" id="budgetEndDate" required>
+                </div>
+                <div class="category-budget-section">
+                    <h4>Allouer Votre Budget (Optionnel)</h4>
+                    <div id="categoryAllocations">
+                        <!-- Categories will be added here dynamically -->
+                    </div>
+                    <button type="button" id="addCategoryBtn" class="btn btn-outline btn-sm">
+                        <i class="fas fa-plus"></i> Ajouter Catégorie
+                    </button>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary close-modal">Annuler</button>
+                    <button type="submit" class="btn btn-success">Enregistrer Budget</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<!-- Add Expense Modal -->
+<div id="expenseModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>Ajouter une Dépense</h3>
+            <span class="close">&times;</span>
+        </div>
+        <div class="modal-body">
+            <form id="expenseForm">
+                <input type="hidden" id="expenseCategoryId">
+                <div class="form-group">
+                    <label for="expenseCategory">Catégorie</label>
+                    <input type="text" id="expenseCategory" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="expenseAmount">Montant (€)</label>
+                    <input type="number" id="expenseAmount" placeholder="0.00" step="0.01" min="0" required>
+                </div>
+                <div class="form-group">
+                    <label for="expenseDescription">Description</label>
+                    <input type="text" id="expenseDescription" placeholder="Description de la dépense">
+                </div>
+                <div class="form-group">
+                    <label for="expenseDate">Date</label>
+                    <input type="date" id="expenseDate" required>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary close-modal">Annuler</button>
+                    <button type="submit" class="btn btn-success">Enregistrer Dépense</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Replace frontend.js with dashboard.js -->
+<script src="../static/js/dashboard.js"></script>
+
+
+</body>
+</html>
