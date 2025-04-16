@@ -1,0 +1,15 @@
+# Flask and extensions
+Flask==2.2.3
+Flask-Cors==3.0.10
+Werkzeug==2.2.3
+
+# Database
+SQLite3==2.6.0
+
+# Security
+bcrypt==4.0.1  # For password hashing if not using Werkzeug's built-in
+
+# Utilities
+python-dotenv==1.0.0  # For environment variable management
+gunicorn==20.1.0  # For production deployment
+pdfkit==1.0.0  # For PDF generation support
